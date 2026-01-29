@@ -1,14 +1,8 @@
-// src/main/java/com/yucel/dayan/entity/ContactMessage.java
 package com.yucel.dayan.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-/*
-  ContactMessage:
-  - DB'de "contact_messages" tablosu.
-  - İletişim formundan gelen mesajları tutar.
-*/
 @Entity
 @Table(name = "contact_messages")
 public class ContactMessage {
@@ -23,6 +17,9 @@ public class ContactMessage {
     @Column(name="email", nullable = false, length = 180)
     private String email;
 
+    @Column(name="subject", nullable = false, columnDefinition = "text")
+    private String subject;
+
     @Column(name="message", nullable = false, columnDefinition = "text")
     private String message;
 
@@ -34,7 +31,6 @@ public class ContactMessage {
         if (createdAt == null) createdAt = LocalDateTime.now();
     }
 
-    // getter/setter
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -43,6 +39,9 @@ public class ContactMessage {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
 
     public String getMessage() { return message; }
     public void setMessage(String message) { this.message = message; }
