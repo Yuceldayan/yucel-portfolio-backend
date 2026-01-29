@@ -13,18 +13,18 @@ public class AuthCookie {
     public static ResponseCookie buildAuthCookie(String jwt, boolean secure) {
         return ResponseCookie.from(COOKIE_NAME, jwt)
                 .httpOnly(true)
-                .secure(secure) // prod: true (https)
-                .sameSite("Lax") // admin panel aynı siteyse Lax iyi
+                .secure(secure)          // prod: true (https) ✅
+                .sameSite("None")        // ✅ cross-site XHR için şart
                 .path("/")
-                .maxAge(60 * 60) // 1 saat (ttl ile uyumlu)
+                .maxAge(60 * 60)
                 .build();
     }
 
     public static ResponseCookie clearAuthCookie(boolean secure) {
         return ResponseCookie.from(COOKIE_NAME, "")
                 .httpOnly(true)
-                .secure(secure)
-                .sameSite("Lax")
+                .secure(secure)          // prod: true ✅
+                .sameSite("None")        // ✅
                 .path("/")
                 .maxAge(0)
                 .build();
