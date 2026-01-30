@@ -75,4 +75,18 @@ public class CreateProjectRequest {
     public void setTechnologies(List<String> technologies) {
         this.technologies = technologies;
     }
+
+    // ============================
+    // ✅ BACKEND/DB "description" alanı NOT NULL ise,
+    // service/entity map ederken getDescription() çağrılıyor olabilir.
+    // Bu yüzden description'u longDescription'a bağlıyoruz.
+    // ============================
+
+    public String getDescription() {
+        return this.longDescription;
+    }
+
+    public void setDescription(String description) {
+        this.longDescription = description;
+    }
 }
