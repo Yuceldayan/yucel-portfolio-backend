@@ -15,24 +15,25 @@ public class CorsConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
 
-        // ✅ Hem localhost hem Vercel izinli
+        // ✅ Çalışacak originler (tek seferde hepsi)
         cfg.setAllowedOriginPatterns(List.of(
                 "http://localhost:*",
                 "http://127.0.0.1:*",
-                "https://*.vercel.app"
+                "https://*.vercel.app",
+
+                "https://yuceldayan.com",
+                "https://www.yuceldayan.com"
         ));
 
-        cfg.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "OPTIONS"
-        ));
-
+        cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
+
+        // JWT'yi header ile taşıyorsan (Authorization: Bearer ...) cookie şart değil,
+        // ama sende true zaten; patterns ile sorun çıkarmaz.
         cfg.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", cfg);
-
         return source;
     }
 }
