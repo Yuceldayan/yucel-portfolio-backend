@@ -29,8 +29,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             FilterChain chain
     ) throws ServletException, IOException {
 
-        // Cookie’den al
         String token = AuthCookie.read(req).orElse(null);
+
+        // fallback: Authorization header
+        if (token == null) {
+            String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
+            }
+        }
 
         if (token != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
@@ -44,8 +51,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                         List.of(new SimpleGrantedAuthority("ROLE_" + role))
                 );
                 SecurityContextHolder.getContext().setAuthentication(auth);
-            } catch (Exception ignored) {
-                // token geçersiz -> auth set etme
+            } catch (Exception e) {
+                // debug için istersen aç:
+                // System.out.println("JWT parse error: " + e.getMessage());
             }
         }
 
