@@ -24,6 +24,11 @@ public class Project {
     @Column(name = "long_description", nullable = false, columnDefinition = "text")
     private String longDescription;
 
+    // ✅ DB'de NOT NULL olan kolon: description
+    // (loglarda bu alan yüzünden patlıyordun)
+    @Column(name = "description", nullable = false, columnDefinition = "text")
+    private String description;
+
     @Column(name = "live_url", length = 500)
     private String liveUrl;
 
@@ -68,6 +73,13 @@ public class Project {
         // boş kalmasın diye güvenlik
         if (shortDescription == null) shortDescription = "";
         if (longDescription == null) longDescription = "";
+
+        // ✅ description NOT NULL -> boş kalmasın
+        if (description == null) {
+            // tercihen longDescription'dan türet
+            description = (longDescription != null) ? longDescription : "";
+        }
+
         if (displayOrder == null) displayOrder = 0;
     }
 
@@ -84,6 +96,9 @@ public class Project {
 
     public String getLongDescription() { return longDescription; }
     public void setLongDescription(String longDescription) { this.longDescription = longDescription; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
     public String getLiveUrl() { return liveUrl; }
     public void setLiveUrl(String liveUrl) { this.liveUrl = liveUrl; }
