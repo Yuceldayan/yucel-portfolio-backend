@@ -24,6 +24,7 @@ public class ContactServiceImpl implements ContactService {
         ContactMessage m = new ContactMessage();
         m.setName(req.getName());
         m.setEmail(req.getEmail());
+        m.setSubject(req.getSubject());   // ✅ subject eklendi
         m.setMessage(req.getMessage());
 
         ContactMessage saved = repo.save(m);
@@ -42,6 +43,7 @@ public class ContactServiceImpl implements ContactService {
                 m.getId(),
                 m.getName(),
                 m.getEmail(),
+                m.getSubject(),          // ✅ subject eklendi
                 m.getMessage(),
                 m.getCreatedAt()
         );
