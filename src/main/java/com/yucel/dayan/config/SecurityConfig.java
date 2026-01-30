@@ -36,14 +36,23 @@ public class SecurityConfig {
                         // ✅ Public endpointler açık
                         .requestMatchers(HttpMethod.GET, "/api/v1/public/**").permitAll()
 
-                        // (Sende ayrıca /api/v1/experiences public ise böyle kalsın)
+                        // ✅ Experiences public ise açık
                         .requestMatchers(HttpMethod.GET,
                                 "/api/v1/experiences",
                                 "/api/v1/experiences/**"
                         ).permitAll()
 
-                        // ✅ Contact form açık
-                        .requestMatchers(HttpMethod.POST, "/api/v1/contact/**").permitAll()
+                        // ✅ Contact form açık (frontend'in attığı endpoint)
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/public/contact",
+                                "/api/v1/public/contact/**"
+                        ).permitAll()
+
+                        // (İstersen eskisini de açık bırak: zarar vermez)
+                        .requestMatchers(HttpMethod.POST,
+                                "/api/v1/contact",
+                                "/api/v1/contact/**"
+                        ).permitAll()
 
                         // ✅ Admin endpointler: ADMIN role şart
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
