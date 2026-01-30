@@ -20,30 +20,36 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService) throws Exception {
 
         http
+                // ✅ CorsConfig'teki CorsConfigurationSource bean'ini kullanır
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
 
                 .authorizeHttpRequests(auth -> auth
+                        // ✅ Preflight (CORS) istekleri
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // ✅ auth endpointleri açık
+                        // ✅ Auth endpointleri açık (login vs.)
                         .requestMatchers("/api/v1/auth/**").permitAll()
 
-                        // ✅ public endpointler
+                        // ✅ Public endpointler açık
+                        .requestMatchers(HttpMethod.GET, "/api/v1/public/**").permitAll()
+
+                        // (Sende ayrıca /api/v1/experiences public ise böyle kalsın)
                         .requestMatchers(HttpMethod.GET,
-                                "/api/v1/public/**",
                                 "/api/v1/experiences",
                                 "/api/v1/experiences/**"
                         ).permitAll()
 
+                        // ✅ Contact form açık
                         .requestMatchers(HttpMethod.POST, "/api/v1/contact/**").permitAll()
 
-                        // ✅ admin endpointler: ADMIN role şart
+                        // ✅ Admin endpointler: ADMIN role şart
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
 
-                        .anyRequest().permitAll()
+                        // ✅ Geri kalan her şey giriş ister (güvenli default)
+                        .anyRequest().authenticated()
                 )
 
                 // ✅ JWT filter
