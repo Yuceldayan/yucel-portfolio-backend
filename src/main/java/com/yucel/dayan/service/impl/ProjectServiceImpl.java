@@ -1,4 +1,3 @@
-// src/main/java/com/yucel/dayan/service/impl/ProjectServiceImpl.java
 package com.yucel.dayan.service.impl;
 
 import com.yucel.dayan.dto.project.CreateProjectRequest;
@@ -66,6 +65,10 @@ public class ProjectServiceImpl implements ProjectService {
         p.setTitle(safeTrim(req.getTitle()));
         p.setShortDescription(safeTrim(req.getShortDescription()));
         p.setLongDescription(safeTrim(req.getLongDescription()));
+
+        // ✅ DB NOT NULL: description -> longDescription'a bağla
+        p.setDescription(safeTrim(req.getLongDescription()));
+
         p.setLiveUrl(safeTrim(req.getLiveUrl()));
         p.setRepoUrl(safeTrim(req.getRepoUrl()));
         p.setCoverImageUrl(safeTrim(req.getCoverImageUrl()));
@@ -91,7 +94,14 @@ public class ProjectServiceImpl implements ProjectService {
 
         if (req.getTitle() != null) p.setTitle(safeTrim(req.getTitle()));
         if (req.getShortDescription() != null) p.setShortDescription(safeTrim(req.getShortDescription()));
-        if (req.getLongDescription() != null) p.setLongDescription(safeTrim(req.getLongDescription()));
+        if (req.getLongDescription() != null) {
+            String ld = safeTrim(req.getLongDescription());
+            p.setLongDescription(ld);
+
+            // ✅ description'ı da güncelle (NOT NULL kolonu)
+            p.setDescription(ld);
+        }
+
         if (req.getLiveUrl() != null) p.setLiveUrl(safeTrim(req.getLiveUrl()));
         if (req.getRepoUrl() != null) p.setRepoUrl(safeTrim(req.getRepoUrl()));
         if (req.getCoverImageUrl() != null) p.setCoverImageUrl(safeTrim(req.getCoverImageUrl()));
