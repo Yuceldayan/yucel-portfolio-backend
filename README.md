@@ -89,7 +89,24 @@ runtime image.
 
 ## My role
 
-**Sole developer.** The API design, domain model, Flyway migration chain, JWT
-security layer and Docker packaging are all mine, as is the
+**Sole developer.** I built this API and the
 [React client](https://github.com/Yuceldayan/yucel-portfolio-frontend) that
-consumes it. The commit history here reflects that work commit by commit.
+consumes it. The commit history here records the work step by step.
+
+**API design** â€” Nine controllers split deliberately into a public read side
+(`ProjectPublic`, `ExperiencePublic`, `AboutPublic`, `ContactPublic`) and an
+authenticated admin side (`ProjectAdmin`, `ExperienceAdmin`, `AboutAdmin`,
+`ContactAdmin`), plus `AuthController`. Authorisation is a property of the route
+rather than a check scattered through services.
+
+**Domain model** â€” Four JPA entities (`Project`, `Experience`, `About`,
+`ContactMessage`), each backed by its own Flyway migration. The schema is
+migration-driven end to end: nine ordered migrations, `ddl-auto: validate`, never
+auto-generated.
+
+**Security** â€” Spring Security with JWT via jjwt; the filter reads the token from
+either an httpOnly cookie or the `Authorization` header, so the same API serves
+the browser client and direct calls.
+
+**Deployment** â€” Multi-stage Dockerfile, CORS configuration for the custom domain
+and Vercel preview origins, environment-driven configuration, running on Render.
