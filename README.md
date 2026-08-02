@@ -84,3 +84,12 @@ docker run -p 8080:8080 \
 
 The Dockerfile builds in one stage and copies only the resulting jar into the
 runtime image.
+
+---
+
+## My role
+
+**Sole developer.** The API design, domain model, Flyway migration chain, JWT
+security layer and Docker packaging are all mine, as is the
+[React client](https://github.com/Yuceldayan/yucel-portfolio-frontend) that
+consumes it. The commit history here reflects that work commit by commit.
