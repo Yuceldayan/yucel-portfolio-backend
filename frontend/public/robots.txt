@@ -1,7 +1,0 @@
-User-agent: *
-Allow: /
-
-# Admin sayfalarını SEO için hariç tut
-Disallow: /admin/
-
-Sitemap: https://yuceldayan.com/sitemap.xml
