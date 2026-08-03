@@ -1,6 +1,6 @@
 # Portfolio Backend — api.yuceldayan.com
 
-REST API that powers [canlı site](https://yucel-portfolio-frontend.vercel.app). It exposes the
+REST API that powers [canlı site](https://yuceldayan.vercel.app). It exposes the
 portfolio content publicly and puts every write operation behind JWT
 authentication, so the site's owner can manage projects, experience entries, the
 about text and incoming contact messages from the admin panel without touching code.
